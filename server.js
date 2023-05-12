@@ -1,4 +1,9 @@
-const express = require('express')
+import 'dotenv/config.js'
+import express from 'express'
+
+import './config/database.js'
+
+// const express = require('express')
 const app = express()
 
 // just setting up basic routes
@@ -8,4 +13,6 @@ app.get('/api', (req, res) => {
 
 
 // setting up basic listener
-app.listen(5000, () => { console.log('Server started on port 5000') })
+app.listen(3000, () => { console.log('Server started on port 3000') })
+
+module.exports = app;

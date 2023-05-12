@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-import bcrypt from "bcryptjs/dist/bcrypt";
+import bcrypt from "bcrypt"
 
 const saltRounds = 6
 const Schema = mongoose.Schema

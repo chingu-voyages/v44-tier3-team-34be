@@ -1,9 +1,13 @@
 import 'dotenv/config.js'
 import express from 'express'
 
+// connect to MongoDB with mongoose
 import './config/database.js'
 
-// const express = require('express')
+// import routes
+import { router as authRouter } from './routes/auth.js'
+
+// create express app
 const app = express()
 
 // just setting up basic routes

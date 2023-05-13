@@ -19,17 +19,17 @@ async function signup(req, res) {
 
     const token = createJWT(newUser);
     res.status(200).json({ token });
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    console.error("An error occured", error);
     try {
       if (req.body.profile) {
         await Profile.findByIdAndDelete(req.body.profile);
       }
-    } catch (err) {
-      console.log(err);
-      return res.status(500).json({ err: err.message });
+    } catch (error) {
+      console.error("An error occured", error);
+      return res.status(500).json({ error: error.message });
     }
-    res.status(500).json({ err: err.message });
+    res.status(500).json({ error: error.message });
   }
 }
 
@@ -48,8 +48,8 @@ async function login(req, res) {
 
     const token = createJWT(user);
     res.json({ token });
-  } catch (err) {
-    handleAuthError(err, res);
+  } catch (error) {
+    handleAuthError(error, res);
   }
 }
 
@@ -66,20 +66,20 @@ async function changePassword(req, res) {
 
     const token = createJWT(user);
     res.json({ token });
-  } catch (err) {
-    handleAuthError(err, res);
+  } catch (error) {
+    handleAuthError(error, res);
   }
 }
 
 /* --== Helper Functions ==-- */
 
-function handleAuthError(err, res) {
-  console.log(err);
-  const { message } = err;
+function handleAuthError(error, res) {
+  console.error("An error occured", error);
+  const { message } = error;
   if (message === "User not found" || message === "Incorrect password") {
-    res.status(401).json({ err: message });
+    res.status(401).json({ error: message });
   } else {
-    res.status(500).json({ err: message });
+    res.status(500).json({ error: message });
   }
 }
 

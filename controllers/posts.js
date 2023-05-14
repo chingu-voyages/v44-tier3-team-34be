@@ -13,9 +13,20 @@ const create = async (req, res) => {
     post.author = profile;
     res.status(201).json(post);
   } catch (error) {
-    console.error('An error occured', error);
+    console.error("An error occured", error);
     res.status(500).json(error);
   }
 };
 
-export { create };
+const index = async (req, res) => {
+  try {
+    const posts = await Post.find({})
+      .populate("author")
+      .sort({ createdAt: "desc" });
+    res.status(200).json(posts);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export { create, index };

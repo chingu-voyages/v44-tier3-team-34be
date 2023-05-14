@@ -24,8 +24,8 @@ async function addPhoto(req, res) {
     
     await profile.save()
     res.status(201).json(profile.photo)
-  } catch (err) {
-    console.log(err)
+  } catch (error) {
+    console.error('An error occured', error);
     res.status(500).json(err)
   }
 }

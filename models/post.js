@@ -27,7 +27,7 @@ const postSchema = new Schema(
     category: {
       type: String,
       required: true,
-      enum: ['Meet Ups', 'Training', 'Dog Walks and Hikes', 'Photo Album'],
+      enum: ['Meet Ups', 'Training', 'Dog Walks and Hikes', 'Photo Album', 'Other'],
     },
     comments: [commentSchema],
     author: { type: Schema.Types.ObjectId, ref: 'Profile' }

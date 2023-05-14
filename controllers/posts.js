@@ -51,4 +51,16 @@ const update = async (req, res) => {
   }
 };
 
-export { create, index, show, update };
+const deletePost = async (req, res) => {
+  try {
+    const post = await Post.findByIdAndDelete(req.params.id);
+    const profile = await Profile.findById(req.user.profile);
+    profile.posts.remove({ _id: req.params.id });
+    await profile.save();
+    res.status(200).json(post);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+export { create, index, show, update, deletePost as delete };

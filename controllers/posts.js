@@ -79,4 +79,12 @@ const createComment = async (req, res) => {
   }
 };
 
-export { create, index, show, update, deletePost as delete, createComment };
+
+export {
+  create,
+  index,
+  show,
+  update,
+  deletePost as delete,
+  createComment,
+};

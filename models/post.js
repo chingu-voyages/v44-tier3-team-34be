@@ -6,7 +6,8 @@ const commentSchema = new Schema (
   {
     text: {
       type: String,
-      required: true
+      required: true,
+      maxLength: 180,
     },
     author: {
       type: Schema.Types.ObjectId, ref: 'Profile'}

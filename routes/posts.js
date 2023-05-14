@@ -18,4 +18,5 @@ router.delete('/:id', checkAuth, postsCtrl.delete)
 
 
 
+
 export { router }

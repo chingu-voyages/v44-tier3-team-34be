@@ -11,6 +11,7 @@ router.use(decodeUserFromToken)
 router.get('/', checkAuth, postsCtrl.index)
 router.get('/:id', checkAuth, postsCtrl.show)
 router.post('/', checkAuth, postsCtrl.create)
+router.put('/:id', checkAuth, postsCtrl.update)
 
 
 

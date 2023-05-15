@@ -1,8 +1,8 @@
-import mongoose from 'mongoose'
+import mongoose from "mongoose";
 
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 
-const commentSchema = new Schema (
+const commentSchema = new Schema(
   {
     text: {
       type: String,
@@ -10,10 +10,13 @@ const commentSchema = new Schema (
       maxLength: 180,
     },
     author: {
-      type: Schema.Types.ObjectId, ref: 'Profile'}
+      type: Schema.Types.ObjectId,
+      ref: "Profile",
     },
-    { timestamps: true}
-)
+  },
+  { timestamps: true }
+);
+
 
 const postSchema = new Schema(
   {
@@ -28,14 +31,20 @@ const postSchema = new Schema(
     category: {
       type: String,
       required: true,
-      enum: ['Meet Ups', 'Training', 'Dog Walks and Hikes', 'Photo Album', 'Other'],
+      enum: [
+        "Meet Ups",
+        "Training",
+        "Dog Walks and Hikes",
+        "Photo Album",
+        "Other",
+      ],
     },
     comments: [commentSchema],
-    author: { type: Schema.Types.ObjectId, ref: 'Profile' }
+    author: { type: Schema.Types.ObjectId, ref: "Profile" },
   },
   { timestamps: true }
-)
+);
 
-const Post = mongoose.model('Post', postSchema)
+const Post = mongoose.model("Post", postSchema);
 
-export { Post }
+export { Post };

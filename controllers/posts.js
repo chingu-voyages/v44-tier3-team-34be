@@ -67,6 +67,8 @@ const createComment = async (req, res) => {
   try {
     req.body.author = req.user.profile;
     const post = await Post.findById(req.params.id);
+    console.log(post, "post");
+    console.log(req.body);
     post.comments.push(req.body);
     await post.save();
 
@@ -74,6 +76,44 @@ const createComment = async (req, res) => {
     const profile = await Profile.findById(req.user.profile);
     newComment.author = profile;
     res.status(201).json(newComment);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+//the author of the comment and the author of the post can delete a comment
+const deleteComment = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    console.log(post, " this is the post");
+    const comment = post.comments.id(req.params.commentId);
+    console.log(comment, "this is the comment");
+    if (
+      comment.author.equals(req.user.profile) ||
+      post.author.equals(req.user.profile)
+    ) {
+      post.comments.remove({ _id: req.params.commentId });
+      await post.save();
+      res.status(200).json(comment);
+    } else {
+      res.status(401).json("Permission denied");
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+const updateComment = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    const comment = post.comments.id(req.params.commentId);
+    if (comment.author.equals(req.user.profile)) {
+      comment.set(req.body);
+      await post.save();
+      res.status(201).json(comment);
+    } else {
+      res.status(401).json("Permission denied");
+    }
   } catch (error) {
     res.status(500).json(error);
   }
@@ -87,4 +127,6 @@ export {
   update,
   deletePost as delete,
   createComment,
+  deleteComment,
+  updateComment,
 };

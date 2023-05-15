@@ -103,7 +103,23 @@ const deleteComment = async (req, res) => {
   }
 }
 
-
+const updateComment = async(req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId)
+    const comment = post.comments.id(req.params.commentId)
+    if (
+      comment.author.equals(req.user.profile)) {
+        comment.set(req.body)
+        await post.save()
+        res.status(201).json(comment)
+      } else {
+        res.status(401).json("Permission denied")
+      }
+  } catch (error) {
+    res.status(500).json(error)
+    console.error("this update comment error sucks", error)
+  }
+}
 
 export {
   create,
@@ -113,4 +129,5 @@ export {
   deletePost as delete,
   createComment,
   deleteComment,
+  updateComment,
 };

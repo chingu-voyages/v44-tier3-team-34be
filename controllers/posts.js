@@ -67,8 +67,8 @@ const createComment = async (req, res) => {
   try {
     req.body.author = req.user.profile;
     const post = await Post.findById(req.params.id);
-    console.log(post, 'post')
-    console.log(req.body)
+    console.log(post, "post");
+    console.log(req.body);
     post.comments.push(req.body);
     await post.save();
 
@@ -84,42 +84,41 @@ const createComment = async (req, res) => {
 //the author of the comment and the author of the post can delete a comment
 const deleteComment = async (req, res) => {
   try {
-    const post = await Post.findById(req.params.postId)
-    console.log(post, ' this is the post')
-    const comment = post.comments.id(req.params.commentId)
-    console.log(comment, 'this is the comment')
+    const post = await Post.findById(req.params.postId);
+    console.log(post, " this is the post");
+    const comment = post.comments.id(req.params.commentId);
+    console.log(comment, "this is the comment");
     if (
-      comment.author.equals(req.user.profile) || post.author.equals(req.user.profile)
+      comment.author.equals(req.user.profile) ||
+      post.author.equals(req.user.profile)
     ) {
-      post.comments.remove({_id: req.params.commentId})
-      await post.save()
-      res.status(200).json(comment)
+      post.comments.remove({ _id: req.params.commentId });
+      await post.save();
+      res.status(200).json(comment);
     } else {
-      res.status(401).json("Permission denied")
+      res.status(401).json("Permission denied");
     }
-  } catch(error) {
-    res.status(500).json(error)
-    console.error('oh no', error)
-  }
-}
-
-const updateComment = async(req, res) => {
-  try {
-    const post = await Post.findById(req.params.postId)
-    const comment = post.comments.id(req.params.commentId)
-    if (
-      comment.author.equals(req.user.profile)) {
-        comment.set(req.body)
-        await post.save()
-        res.status(201).json(comment)
-      } else {
-        res.status(401).json("Permission denied")
-      }
   } catch (error) {
-    res.status(500).json(error)
-    console.error("this update comment error sucks", error)
+    res.status(500).json(error);
   }
-}
+};
+
+const updateComment = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId);
+    const comment = post.comments.id(req.params.commentId);
+    if (comment.author.equals(req.user.profile)) {
+      comment.set(req.body);
+      await post.save();
+      res.status(201).json(comment);
+    } else {
+      res.status(401).json("Permission denied");
+    }
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 
 export {
   create,

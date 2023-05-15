@@ -14,7 +14,7 @@ router.post('/', checkAuth, postsCtrl.create)
 router.post('/:id/comments', checkAuth, postsCtrl.createComment)
 router.put('/:id', checkAuth, postsCtrl.update)
 router.delete('/:id', checkAuth, postsCtrl.delete)
-
+router.delete('/:postId/comments/:commentId', checkAuth, postsCtrl.deleteComment)
 
 
 

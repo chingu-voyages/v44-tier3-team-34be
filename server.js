@@ -11,6 +11,7 @@ import './config/database.js'
 import { router as profilesRouter } from './routes/profile.js'
 import { router as authRouter } from './routes/auth.js'
 import { router as postsRouter } from './routes/posts.js'
+import { router as repostRouter } from './routes/repost.js'
 
 // create express app
 const app = express()
@@ -23,16 +24,17 @@ app.use(formData.parse())
 
 // mount imported routes
 app.use('/api/profiles', profilesRouter)
-app.use('/api/auth',  authRouter)
+app.use('/api/auth', authRouter)
 app.use('/api/posts', postsRouter)
+app.use('/api/repost', repostRouter)
 
 // handle 404 errors
-app.use(function(req, res, next) {
-    res.status(404).json({err: 'Not found'})
+app.use(function (req, res, next) {
+    res.status(404).json({ err: 'Not found' })
 })
 // handle other errors
-app.use(function(err, req, res, next) {
-    res.status(err.status || 500).json({err: err.message})
+app.use(function (err, req, res, next) {
+    res.status(err.status || 500).json({ err: err.message })
 })
 
 export { app }

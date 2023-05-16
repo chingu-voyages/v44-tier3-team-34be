@@ -6,8 +6,18 @@
 
 ### Packages
 
-Express
+- To install all packages
 
 ```
-$ npm i express
+$ npm i
 ```
+
+- To run database: 
+
+```
+$ nodemon
+```
+
+### env
+
+Please contact [James Ian S.]() or [CM]() for .env information

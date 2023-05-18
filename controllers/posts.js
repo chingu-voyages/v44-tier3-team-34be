@@ -119,6 +119,21 @@ const updateComment = async (req, res) => {
   }
 };
 
+const createReaction = async (req, res) => {
+  try {
+    req.body.author = req.user.profile;
+    const post = await Post.findById(req.params.id)
+    .populate("author");
+    post.reactions.push(req.body);
+    await post.save();
+    const newReaction = post.reactions[post.reactions.length - 1];
+    const profile = await Profile.findById(req.user.profile);
+    res.status(200).json(Post);
+  } catch (error) {
+    res.status(500).json(error)
+    console.error('reaction!' , error);
+  }
+};
 
 export {
   create,
@@ -129,4 +144,5 @@ export {
   createComment,
   deleteComment,
   updateComment,
+  createReaction,
 };

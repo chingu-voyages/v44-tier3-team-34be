@@ -1,6 +1,7 @@
 import { Profile } from "../models/profile.js";
 import { Post } from "../models/post.js";
 
+
 const create = async (req, res) => {
   try {
     req.body.author = req.user.Profile;
@@ -44,7 +45,8 @@ const update = async (req, res) => {
   try {
     const post = await Post.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
-    }).populate("author");
+    })
+    .populate("author");
     res.status(200).json(post);
   } catch (error) {
     res.status(500).json(error);
@@ -85,9 +87,7 @@ const createComment = async (req, res) => {
 const deleteComment = async (req, res) => {
   try {
     const post = await Post.findById(req.params.postId);
-    console.log(post, " this is the post");
     const comment = post.comments.id(req.params.commentId);
-    console.log(comment, "this is the comment");
     if (
       comment.author.equals(req.user.profile) ||
       post.author.equals(req.user.profile)
@@ -119,6 +119,44 @@ const updateComment = async (req, res) => {
   }
 };
 
+const createReaction = async (req, res) => {
+  try {
+    req.body.author = req.user.profile;
+    const post = await Post.findById(req.params.id)
+    .populate("author");
+    post.reactions.push(req.body);
+    await post.save();
+    const newReaction = post.reactions[post.reactions.length - 1];
+    const profile = await Profile.findById(req.user.profile);
+    res.status(200).json(Post);
+  } catch (error) {
+    res.status(500).json(error);
+    console.error("reaction!", error);
+  }
+};
+
+const deleteReaction = async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.postId)
+    .populate('author')
+    const reaction = post.reactions.id(req.params.reactionId);
+
+    if (!reaction) {
+      return res.status(404).json({ error: "Not found" });
+    }
+
+    if (!reaction.author.equals(req.user.profile)) {
+      return res.status(401).json({ error: "Permission denied" });
+    }
+    //uses pull to remove reaction by Id
+    post.reactions.pull(req.params.reactionId);
+    await post.save();
+    res.status(200).json(post);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "internal server error" });
+  }
+};
 
 export {
   create,
@@ -129,4 +167,6 @@ export {
   createComment,
   deleteComment,
   updateComment,
+  createReaction,
+  deleteReaction,
 };

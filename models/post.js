@@ -17,6 +17,17 @@ const commentSchema = new Schema(
   { timestamps: true }
 );
 
+const reactionSchema = new Schema({
+  reaction: {type: String,
+  required: true,
+enum: [
+  'Love', 'Like', 'Funny', 'Insightful',
+]},
+author: {type: Schema.Types.ObjectId, ref: 'Profile'}
+}, {
+  timestamps: true,
+})
+
 
 const postSchema = new Schema(
   {
@@ -39,6 +50,7 @@ const postSchema = new Schema(
         "Other",
       ],
     },
+    reactions: [reactionSchema],
     comments: [commentSchema],
     author: { type: Schema.Types.ObjectId, ref: "Profile" },
   },

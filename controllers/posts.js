@@ -4,7 +4,7 @@ import { Post } from "../models/post.js";
 
 const create = async (req, res) => {
   try {
-    req.body.author = req.user.Profile;
+    req.body.author = req.user.profile;
     const post = await Post.create(req.body);
     const profile = await Profile.findByIdAndUpdate(
       req.user.profile,

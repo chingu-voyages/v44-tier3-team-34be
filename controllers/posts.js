@@ -56,8 +56,10 @@ const update = async (req, res) => {
 const deletePost = async (req, res) => {
   try {
     const post = await Post.findByIdAndDelete(req.params.id);
+    console.log(post, 'post')
     const profile = await Profile.findById(req.user.profile);
-    profile.posts.remove({ _id: req.params.id });
+    console.log(profile, 'profile')
+    profile.post.remove({ _id: req.params.id });
     await profile.save();
     res.status(200).json(post);
   } catch (error) {
